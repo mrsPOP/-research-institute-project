@@ -1,0 +1,12 @@
+.input {
+  border: 0;
+}
+
+.input-invalid {
+  border: 1px solid red;
+}
+
+.input-invalid:focus-visible {
+  border: 1px solid red;
+  outline: 1px solid red;
+}

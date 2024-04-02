@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type CharacteristicState = {
   currentCharacteristic: TrainCharacteristic | null | {};
@@ -11,10 +11,10 @@ const initialState: CharacteristicState = {
 };
 
 export const characteristicSlice = createSlice({
-  name: 'characteristic',
+  name: "characteristic",
   initialState,
   reducers: {
-    setCharacteristic: (state, action: PayloadAction<Train['name']>) => {
+    setCharacteristic: (state, action: PayloadAction<Train["name"]>) => {
       const characteristics = state.allCharacteristics[action.payload];
       state.currentCharacteristic = characteristics
         ? { [action.payload]: characteristics }
@@ -29,6 +29,7 @@ export const characteristicSlice = createSlice({
   },
 });
 
-export const { setCharacteristic, setAllCharacteristics } = characteristicSlice.actions;
+export const { setCharacteristic, setAllCharacteristics } =
+  characteristicSlice.actions;
 
 export default characteristicSlice.reducer;
