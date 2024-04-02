@@ -1,0 +1,17 @@
+.container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.table-row {
+  cursor: pointer;
+}
+
+.table-row:hover {
+  background-color: #f5f5f5;
+}
+
+.loading {
+  font-size: 50px;
+}

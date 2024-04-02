@@ -1,7 +1,7 @@
-import "./App.css";
-import TrainsList from "./components/TrainsList";
-import CharacteristicsTable from "./components/CharacteristicsTable";
 import { useSelector } from "react-redux";
+import styles from './App.module.css';
+import CharacteristicsTable from "./components/CharacteristicsTable";
+import TrainsList from "./components/TrainsList";
 import { RootState } from "./store";
 
 function App() {
@@ -9,10 +9,10 @@ function App() {
     (state: RootState) => state.characteristic.currentCharacteristic
   ) as TrainCharacteristic;
   return (
-    <>
-      <TrainsList />
+    <main className={styles.main}>
+      <TrainsList/>
       {characteristics && <CharacteristicsTable/>}
-    </>
+    </main>
   );
 }
 

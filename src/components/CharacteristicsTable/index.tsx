@@ -1,9 +1,14 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
-import { useForm } from "react-hook-form";
-import styles from "./styles.module.css";
 import clsx from "clsx";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import styles from "./styles.module.css";
+import tableStyles from "../../styles/table.module.css";
+
+type FormValues = {
+  characteristic: Characteristic[];
+};
 
 const CharacteristicsTable = () => {
   const characteristics = useSelector(
@@ -13,16 +18,9 @@ const CharacteristicsTable = () => {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
     reset,
-  } = useForm({ mode: "onChange" });
+  } = useForm<FormValues>({ mode: "onChange" });
   const trainName = Object.keys(characteristics)[0]!;
-
-  const handleSendData = () => {
-    const allFormValues = getValues();
-    console.log("Send data", allFormValues);
-  };
-
   useEffect(() => {
     if (characteristics && trainName) {
       reset();
@@ -30,9 +28,20 @@ const CharacteristicsTable = () => {
   }, [characteristics]);
 
   return (
-    <form onSubmit={handleSubmit(handleSendData)}>
-      <table>
-        <caption>Характеристики</caption>
+    <form
+      className={styles.form}
+      onSubmit={handleSubmit((data) => {
+        const speedList = data.characteristic
+          .map((ch) => ch.speed)
+          .sort((a, b) => a - b);
+        console.log(speedList);
+      })}
+    >
+      <table className={tableStyles.table}>
+        <caption className={tableStyles.caption}>
+          Характеристики <br />
+          {trainName}
+        </caption>
         <thead>
           <tr>
             <th>Ток двигателя</th>
@@ -47,29 +56,43 @@ const CharacteristicsTable = () => {
               <tr key={index}>
                 <td>
                   <input
-                    {...register(`engineAmperage${index}`, { required: true })}
+                    {...register(`characteristic.${index}.engineAmperage`, {
+                      required: true,
+                      pattern: /^[0-9]+d*$/,
+                    })}
+                    type="number"
                     defaultValue={characteristic.engineAmperage}
                     className={clsx(styles.input, {
                       [styles["input-invalid"]]:
-                        errors[`engineAmperage${index}`],
+                        errors.characteristic?.[index]?.engineAmperage,
                     })}
                   ></input>
                 </td>
                 <td>
                   <input
-                    {...register(`force${index}`, { required: true })}
+                    {...register(`characteristic.${index}.force`, {
+                      required: true,
+                      pattern: /^[0-9]*[.][0-9]+$/,
+                    })}
+                    type="number"
                     defaultValue={characteristic.force}
                     className={clsx(styles.input, {
-                      [styles["input-invalid"]]: errors[`force${index}`],
+                      [styles["input-invalid"]]:
+                        errors.characteristic?.[index]?.force,
                     })}
                   ></input>
                 </td>
                 <td>
                   <input
-                    {...register(`speed${index}`, { required: true })}
+                    {...register(`characteristic.${index}.speed`, {
+                      required: true,
+                      pattern: /^[0-9]+d*$/,
+                    })}
+                    type="number"
                     defaultValue={characteristic.speed}
                     className={clsx(styles.input, {
-                      [styles["input-invalid"]]: errors[`speed${index}`],
+                      [styles["input-invalid"]]:
+                        errors.characteristic?.[index]?.speed,
                     })}
                   ></input>
                 </td>
@@ -77,7 +100,13 @@ const CharacteristicsTable = () => {
             ))}
         </tbody>
       </table>
-      <button type="submit">Отправить данные</button>
+      <button
+        className={clsx(styles.button)}
+        disabled={!!errors.characteristic}
+        type="submit"
+      >
+        Отправить данные
+      </button>
     </form>
   );
 };

@@ -5,3 +5,21 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+#root {
+  margin: 0 auto;
+}
+
+body {
+  max-inline-size: 2060px;
+  margin: 0 auto;
+}
+
+.main {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  background: #f0f8ff;
+  block-size: 100dvh;
+}
