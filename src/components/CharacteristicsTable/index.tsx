@@ -29,6 +29,7 @@ const CharacteristicsTable = () => {
 
   return (
     <form
+      noValidate={true}
       className={styles.form}
       onSubmit={handleSubmit((data) => {
         const speedList = data.characteristic
@@ -72,7 +73,7 @@ const CharacteristicsTable = () => {
                   <input
                     {...register(`characteristic.${index}.force`, {
                       required: true,
-                      pattern: /^[0-9]*[.][0-9]+$/,
+                      pattern: /^[0-9]+(?:\.[0-9]+)?$/,
                     })}
                     type="number"
                     defaultValue={characteristic.force}
